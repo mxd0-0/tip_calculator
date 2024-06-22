@@ -15,9 +15,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,13 +52,17 @@ fun TipTimeLayout(modifier: Modifier = Modifier) {
                 .align(Alignment.Start)
         )
         EditNumberField(
+            textBox = "",
             modifier = modifier
                 .fillMaxWidth()
+                .padding(bottom = 32.dp)
+
+
         )
         Text(
             text = stringResource(R.string.tip_amount, "$0.00"),
             style = MaterialTheme.typography.displaySmall, modifier = Modifier
-                .padding(top = 40.dp)
+
         )
         Spacer(modifier = Modifier.height(150.dp))
 
@@ -71,9 +77,13 @@ private fun calculateTip(amount: Double, tipPercentage: Double = 15.0): String {
 }
 
 @Composable
-fun EditNumberField(modifier: Modifier = Modifier) {
-    TextField(value = "", onValueChange = {}, modifier = Modifier)
-
+fun EditNumberField(textBox: String, modifier: Modifier = Modifier) {
+    val amountInput = "0"
+    TextField(
+        value = "",
+        onValueChange = {},
+        modifier = modifier
+    )
 }
 
 @Preview(showBackground = true)
