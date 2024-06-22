@@ -3,4 +3,5 @@
     <string name="calculate_tip">Calculate Tip</string>
     <string name="bill_amount">Bill Amount</string>
     <string name="tip_amount">Tip Amount: %s</string>
+    <string name="amount">Amount</string>
 </resources>
