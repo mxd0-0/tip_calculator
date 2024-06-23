@@ -1,6 +1,5 @@
 package com.example.introtostateincompose
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,8 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,6 +33,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            TipTimeLayout()
 
         }
     }
@@ -41,6 +41,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TipTimeLayout(modifier: Modifier = Modifier) {
+    var amountInput by remember { mutableStateOf("") }
+    val amount = amountInput.toDoubleOrNull() ?: 0.0
+    val tip = calculateTip(amount)
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -55,15 +59,14 @@ fun TipTimeLayout(modifier: Modifier = Modifier) {
                 .align(Alignment.Start)
         )
         EditNumberField(
-
-            modifier = modifier
-                .fillMaxWidth()
+            value = amountInput,
+            onValueChange = { amountInput = it },
+            modifier = Modifier
                 .padding(bottom = 32.dp)
-
-
+                .fillMaxWidth()
         )
         Text(
-            text = stringResource(R.string.tip_amount, "$0.00"),
+            text = stringResource(R.string.tip_amount, tip),
             style = MaterialTheme.typography.displaySmall, modifier = Modifier
 
         )
@@ -79,23 +82,19 @@ private fun calculateTip(amount: Double, tipPercentage: Double = 15.0): String {
     return NumberFormat.getCurrencyInstance().format(tip)
 }
 
-@SuppressLint("UnrememberedMutableState")
 @Composable
-fun EditNumberField( modifier: Modifier = Modifier) {
-
-    var amountInput by remember {
-
-        mutableStateOf("")
-    }
-    TextField(
-        value = amountInput,
-        onValueChange = { amountInput = it },
-        label = {
-            Text(text = stringResource(R.string.amount))
-        },
+fun EditNumberField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
         singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-        ,modifier = modifier
+        label = { Text(stringResource(R.string.bill_amount)) },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        modifier = modifier
     )
 }
 
