@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -76,8 +77,8 @@ fun TipTimeLayout(modifier: Modifier = Modifier) {
     }
 
 }
-
-private fun calculateTip(amount: Double, tipPercentage: Double = 15.0): String {
+@VisibleForTesting
+internal fun calculateTip(amount: Double, tipPercentage: Double = 15.0): String {
     val tip = tipPercentage / 100 * amount
     return NumberFormat.getCurrencyInstance().format(tip)
 }
