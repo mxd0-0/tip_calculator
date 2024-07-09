@@ -43,8 +43,14 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TipTimeLayout(modifier: Modifier = Modifier) {
     var amountInput by remember { mutableStateOf("") }
+    var tipInput by remember { mutableStateOf("") }
+    var roundUp by remember { mutableStateOf(false) }
+
     val amount = amountInput.toDoubleOrNull() ?: 0.0
-    val tip = calculateTip(amount)
+    val tipPercent = tipInput.toDoubleOrNull() ?: 0.0
+    val tip = calculateTip(amount, tipPercent, roundUp)
+
+
 
     Column(
         modifier = modifier
@@ -78,8 +84,11 @@ fun TipTimeLayout(modifier: Modifier = Modifier) {
 
 }
 @VisibleForTesting
-internal fun calculateTip(amount: Double, tipPercentage: Double = 15.0): String {
-    val tip = tipPercentage / 100 * amount
+internal fun calculateTip(amount: Double, tipPercent: Double = 15.0, roundUp: Boolean): String {
+    var tip = tipPercent / 100 * amount
+    if (roundUp) {
+        tip = kotlin.math.ceil(tip)
+    }
     return NumberFormat.getCurrencyInstance().format(tip)
 }
 
